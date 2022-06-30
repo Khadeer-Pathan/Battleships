@@ -90,7 +90,17 @@ Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
 def checkShip(grid, ship):
-    return
+    lst_v = []
+    lst_E = [EMPTY_UNCLICKED for i in range(len(ship))]     # creating a list of 3 elements
+    for i in range(len(ship)):
+        xcor = ship[i][0]
+        ycor = ship[i][1]
+        lst_v.append(grid[xcor][ycor])      # lst_v (2D) appends grid(ship(cordinates))
+    
+    if (lst_v == lst_E):    # comparing element by element of the list
+        return True
+    else:
+        return False
 
 
 '''
@@ -281,4 +291,4 @@ if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
     # runSimulation(500, 500)
-    test.testCreateShip()
+    test.testCheckShip()
