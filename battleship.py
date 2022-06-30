@@ -72,7 +72,16 @@ Parameters: no parameters
 Returns: 2D list of ints
 '''
 def createShip():
-    return
+    x_cord_ship_c = random.randint(1,8)
+    y_cord_ship_c = random.randint(1,8)
+    align_ship = random.randint(0,1)
+
+    if (align_ship == 0): #assuming 0 represents vertical
+        position_ship = [[x_cord_ship_c-1,y_cord_ship_c],[x_cord_ship_c,y_cord_ship_c],[x_cord_ship_c+1,y_cord_ship_c]]
+    else:
+       position_ship  = [[x_cord_ship_c,y_cord_ship_c-1],[x_cord_ship_c,y_cord_ship_c],[x_cord_ship_c,y_cord_ship_c+1]]
+
+    return position_ship
 
 
 '''
@@ -272,4 +281,4 @@ if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
     # runSimulation(500, 500)
-    test.testEmptyGrid()
+    test.testCreateShip()
