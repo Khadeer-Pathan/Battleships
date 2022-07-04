@@ -1,6 +1,6 @@
 """
 Battleship Project
-Name:
+Name: Khadeer
 Roll No:
 """
 
@@ -62,7 +62,8 @@ Parameters: int ; int
 Returns: 2D list of ints
 '''
 def emptyGrid(rows, cols):
-    return
+    grid = [[EMPTY_UNCLICKED for col in range(cols)] for row in range(rows)]
+    return grid
 
 
 '''
@@ -271,3 +272,4 @@ if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
     # runSimulation(500, 500)
+    test.testEmptyGrid()
