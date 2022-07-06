@@ -44,6 +44,8 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; Tkinter canvas
 Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
+    drawGrid(data, compCanvas, data["comp_board"], showShips=True)
+    drawGrid(data, userCanvas, data["user_board"], showShips=True)
     return
 
 
@@ -319,5 +321,5 @@ def runSimulation(w, h):
 if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
-    # runSimulation(500, 500)
+    runSimulation(500, 500)
     test.testDrawGrid()
