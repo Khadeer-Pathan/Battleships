@@ -25,7 +25,17 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def makeModel(data):
-    return
+    # data["name"] = value
+
+    data.update({"rows":10,"cols":10,"board_size":500})                     # adding values to empty dictonary using update method - Type 1
+    data["cellsize"] = (data["board_size"]*2)//(data["cols"]+data["rows"])      # adding value to existing dict one by one - Type 2
+    data["n_ships"] = 5
+    # data["user_board"] = emptyGrid(data["rows"], data["cols"])
+    data["user_board"] = test.testGrid()                            # temporarily setting your user grid = test.testGrid()
+    data["comp_board"] = emptyGrid(data["rows"], data["cols"])              # Becomes input in the next step
+    data["comp_board"] = addShips(data["comp_board"],data["n_ships"])       # replacing the value for the same key
+
+    return ()
 
 
 '''
@@ -34,6 +44,8 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; Tkinter canvas
 Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
+    drawGrid(data, compCanvas, data["comp_board"], showShips=True)
+    drawGrid(data, userCanvas, data["user_board"], showShips=True)
     return
 
 
@@ -127,6 +139,16 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; 2D list of ints ; boo
 Returns: None
 '''
 def drawGrid(data, canvas, grid, showShips):
+
+    for i in range(data["cols"]):
+        for j in range(data["rows"]):
+            x_cor = 0 + data["cellsize"]*j
+            y_cor = 0 + data["cellsize"]*i
+            if (grid[i][j]==SHIP_UNCLICKED):
+                canvas.create_rectangle(x_cor, y_cor, x_cor+data["cellsize"], y_cor+data["cellsize"], fill="yellow", width= 1)
+            else:
+                canvas.create_rectangle(x_cor, y_cor, x_cor+data["cellsize"], y_cor+data["cellsize"], fill="blue", width= 1)
+
     return
 
 
@@ -299,5 +321,5 @@ def runSimulation(w, h):
 if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
-    # runSimulation(500, 500)
-    test.testAddShips()
+    runSimulation(500, 500)
+    test.testDrawGrid()
