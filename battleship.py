@@ -28,7 +28,7 @@ def makeModel(data):
     # data["name"] = value
 
     data.update({"rows":10,"cols":10,"board_size":500})                     # adding values to empty dictonary using update method - Type 1
-    data["cellsize"] = data["board_size"]//(data["cols"]*data["rows"])      # adding value to existing dict one by one - Type 2
+    data["cellsize"] = (data["board_size"]^2)//(data["cols"]*data["rows"])      # adding value to existing dict one by one - Type 2
     data["n_ships"] = 5
     data["user_board"] = emptyGrid(data["rows"], data["cols"])
     data["comp_board"] = emptyGrid(data["rows"], data["cols"])              # Becomes input in the next step
