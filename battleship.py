@@ -25,7 +25,16 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def makeModel(data):
-    return
+    # data["name"] = value
+
+    data.update({"rows":10,"cols":10,"board_size":500})                     # adding values to empty dictonary using update method - Type 1
+    data["cellsize"] = data["board_size"]//(data["cols"]*data["rows"])      # adding value to existing dict one by one - Type 2
+    data["n_ships"] = 5
+    data["user_board"] = emptyGrid(data["rows"], data["cols"])
+    data["comp_board"] = emptyGrid(data["rows"], data["cols"])              # Becomes input in the next step
+    data["comp_board"] = addShips(data["comp_board"],data["n_ships"])       # replacing the value for the same key
+
+    return ()
 
 
 '''
@@ -300,4 +309,4 @@ if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
     # runSimulation(500, 500)
-    test.testAddShips()
+    test.testMakeModel()
