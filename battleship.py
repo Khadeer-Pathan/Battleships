@@ -199,7 +199,9 @@ Parameters: dict mapping strs to values ; mouse event object
 Returns: list of ints
 '''
 def getClickedCell(data, event):
-    return
+    c_factor = data["cellsize"]
+    grid_cor = [event.y//c_factor,event.x//c_factor]
+    return grid_cor
 
 
 '''
@@ -343,5 +345,4 @@ if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
     #runSimulation(500, 500)
-    test.testIsVertical()
-    test.testIsHorizontal()
+    test.testGetClickedCell()
