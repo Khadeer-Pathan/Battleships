@@ -30,8 +30,8 @@ def makeModel(data):
     data.update({"rows":10,"cols":10,"board_size":500})                     # adding values to empty dictonary using update method - Type 1
     data["cellsize"] = (data["board_size"]*2)//(data["cols"]+data["rows"])      # adding value to existing dict one by one - Type 2
     data["n_ships"] = 5
-    # data["user_board"] = emptyGrid(data["rows"], data["cols"])
-    data["user_board"] = test.testGrid()                            # temporarily setting your user grid = test.testGrid()
+    data["user_board"] = emptyGrid(data["rows"], data["cols"])
+    #data["user_board"] = test.testGrid()                            # temporarily setting your user grid = test.testGrid()
     data["comp_board"] = emptyGrid(data["rows"], data["cols"])              # Becomes input in the next step
     data["comp_board"] = addShips(data["comp_board"],data["n_ships"])       # replacing the value for the same key
 
@@ -160,7 +160,18 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isVertical(ship):
-    return
+
+    if ((ship[0][1]) == (ship[1][1]) == (ship[2][1])):
+        if ((ship[0][0] + 2) == (ship[1][0] + 1) == (ship[2][0])):
+            return True
+        elif ((ship[0][0] ) == (ship[1][0] + 1) == (ship[2][0] + 2)):
+            return True
+        elif ((ship[0][0]) == (ship[1][0] + 2) == (ship[2][0] + 1)):
+            return True
+        else:
+            return False
+    else:
+        return False
 
 
 '''
@@ -169,7 +180,17 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isHorizontal(ship):
-    return
+    if ((ship[0][0]) == (ship[1][0]) == (ship[2][0])):
+        if ((ship[0][1] + 2) == (ship[1][1] + 1) == (ship[2][1])):
+            return True
+        elif ((ship[0][1] ) == (ship[1][1] + 1) == (ship[2][1] + 2)):
+            return True
+        elif ((ship[0][1]) == (ship[1][1] + 2) == (ship[2][1] + 1)):
+            return True
+        else:
+            return False
+    else:
+        return False
 
 
 '''
@@ -321,5 +342,6 @@ def runSimulation(w, h):
 if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
-    runSimulation(500, 500)
-    test.testDrawGrid()
+    #runSimulation(500, 500)
+    test.testIsVertical()
+    test.testIsHorizontal()
