@@ -29,12 +29,13 @@ def makeModel(data):
 
     data.update({"rows":10,"cols":10,"board_size":500})                     # adding values to empty dictonary using update method - Type 1
     data["cellsize"] = (data["board_size"]*2)//(data["cols"]+data["rows"])      # adding value to existing dict one by one - Type 2
-    data["n_ships"] = 5
+    data["n_comp_ships"] = 5
+    data["n_user_ships"] = 0
     data["user_board"] = emptyGrid(data["rows"], data["cols"])
     #data["user_board"] = test.testGrid()                            # temporarily setting your user grid = test.testGrid()
     data["temp_ship"] = []                                           # intialising temp list as list (2D List)
     data["comp_board"] = emptyGrid(data["rows"], data["cols"])              # Becomes input in the next step
-    data["comp_board"] = addShips(data["comp_board"],data["n_ships"])       # replacing the value for the same key
+    data["comp_board"] = addShips(data["comp_board"],data["n_comp_ships"])       # replacing the value for the same key
 
     return ()
 
@@ -231,7 +232,21 @@ Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
 def shipIsValid(grid, ship):
-    return
+    if len(ship) == 3:
+        for i in (range(len(ship))):
+            if (grid[ship[i][0]][ship[i][1]]) == EMPTY_UNCLICKED:
+                if (isVertical(ship) == True or isHorizontal(ship) == True):
+                    pass
+                else:
+                    #print("Creating ship is not valid, placing Vertically or Horizontally is only possible")
+                    return False
+            else:
+                #print("Creating ship is not possible as there another ship already there")
+                return False
+        return True
+    else:
+        #print("Creating ship is not possible as it does not match size requirments")
+        return False
 
 
 '''
@@ -240,6 +255,18 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def placeShip(data):
+
+    user_grid = data["user_board"]
+    t_ship = data["temp_ship"]
+
+    if (shipIsValid(user_grid, t_ship) == True):
+        for i in (range(len(t_ship))):
+             user_grid[t_ship[i][0]][t_ship[i][1]] = SHIP_UNCLICKED
+        data["temp_ship"] = []
+        data["n_user_ships"] += 1
+    else:
+        print("Ship is not valid")
+        data["temp_ship"] = []
     return
 
 
@@ -249,7 +276,23 @@ Parameters: dict mapping strs to values ; int ; int
 Returns: None
 '''
 def clickUserBoard(data, row, col):
-    return
+
+    if (data["n_user_ships"] == 5):
+        return
+    else:
+        for i in range(len(data["temp_ship"])):
+            if (row == data["temp_ship"][i][0] and col == data["temp_ship"][i][1]):
+                return
+            else:
+                data["temp_ship"] += [[row,col]]
+                if (len(data["temp_ship"]) == 3):
+                    placeShip(data)
+                    if (data["n_user_ships"] == 5):
+                        print("You can start the game")
+                    else:
+                        return
+                else:
+                    return
 
 
 ### WEEK 3 ###
@@ -356,4 +399,5 @@ def runSimulation(w, h):
 if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
-    runSimulation(500, 500)
+    ## runSimulation(500, 500)
+    test.testShipIsValid()
