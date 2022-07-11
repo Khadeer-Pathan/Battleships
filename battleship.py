@@ -49,7 +49,8 @@ def makeView(data, userCanvas, compCanvas):
     drawGrid(data, compCanvas, data["comp_board"], showShips=True)
     drawGrid(data, userCanvas, data["user_board"], showShips=True)
 
-    drawShip(data, userCanvas, ship=test.testShip())
+    # drawShip(data, userCanvas, ship=test.testShip())
+    drawShip(data, userCanvas, data["temp_ship"])
 
     return
 
@@ -69,7 +70,12 @@ Parameters: dict mapping strs to values ; mouse event object ; 2D list of ints
 Returns: None
 '''
 def mousePressed(data, event, board):
-    pass
+    r_var = getClickedCell(data, event)
+
+    if (board == "user"):
+        clickUserBoard(data, r_var[0], r_var[1])
+    elif (board == "comp"):
+        pass
 
 #### WEEK 1 ####
 
@@ -280,19 +286,24 @@ def clickUserBoard(data, row, col):
     if (data["n_user_ships"] == 5):
         return
     else:
-        for i in range(len(data["temp_ship"])):
-            if (row == data["temp_ship"][i][0] and col == data["temp_ship"][i][1]):
-                return
-            else:
-                data["temp_ship"] += [[row,col]]
-                if (len(data["temp_ship"]) == 3):
-                    placeShip(data)
-                    if (data["n_user_ships"] == 5):
-                        print("You can start the game")
+        if len(data["temp_ship"]) != 0:
+            for i in range(len(data["temp_ship"])):
+                if (row == data["temp_ship"][i][0] and col == data["temp_ship"][i][1]):
+                    return
+                else:
+                    data["temp_ship"] += [[row,col]]
+                    if (len(data["temp_ship"]) == 3):
+                        placeShip(data)
+                        if (data["n_user_ships"] == 5):
+                            print("You can start the game")
+                            return
+                        else:
+                            return
                     else:
                         return
-                else:
-                    return
+        else:
+            data["temp_ship"] += [[row,col]]
+            return
 
 
 ### WEEK 3 ###
@@ -399,5 +410,4 @@ def runSimulation(w, h):
 if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
-    ## runSimulation(500, 500)
-    test.testShipIsValid()
+    runSimulation(500, 500)
