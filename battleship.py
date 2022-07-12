@@ -78,15 +78,14 @@ Returns: None
 '''
 def mousePressed(data, event, board):
 
-    if((data["winner"]) != None):
-        return
-    else:
+    if((data["winner"]) == None):
         r_var = getClickedCell(data, event)
 
         if (board == "user"):
             clickUserBoard(data, r_var[0], r_var[1])
         elif (board == "comp"):
             runGameTurn(data, r_var[0], r_var[1])
+    return
 
 #### WEEK 1 ####
 
@@ -346,9 +345,9 @@ def updateBoard(data, board, row, col, player):
 
     winner = isGameOver(board)
     if (winner == True):
-        data["winner"] = None
-    elif(winner == False):
         data["winner"] = player
+    # elif(winner == False):
+    #     data["winner"] = None
 
     return
 
@@ -364,8 +363,8 @@ def runGameTurn(data, row, col):
     elif (((data["comp_board"][row][col]) == (EMPTY_UNCLICKED)) or ((data["comp_board"][row][col]) == (SHIP_UNCLICKED))):
         updateBoard(data, data["comp_board"], row, col, player = "user")
         
-        getComputerGuess(data["user_board"])
-        updateBoard(data, data["user_board"], row, col, player = "comp")
+        comp_guess_cor = getComputerGuess(data["user_board"])
+        updateBoard(data, data["user_board"], comp_guess_cor[0], comp_guess_cor[1], player = "comp")
     return
 
 
