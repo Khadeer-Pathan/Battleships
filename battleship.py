@@ -4,6 +4,8 @@ Name: Khadeer
 Roll No:
 """
 
+from textwrap import fill
+from tkinter import font
 import battleship_tests as test
 
 project = "Battleship" # don't edit this
@@ -36,8 +38,11 @@ def makeModel(data):
     data["temp_ship"] = []                                           # intialising temp list as list (2D List)
     data["comp_board"] = emptyGrid(data["rows"], data["cols"])              # Becomes input in the next step
     data["comp_board"] = addShips(data["comp_board"],data["n_comp_ships"])       # replacing the value for the same key
-    data["winner"] = None
+    data["winner"] = "None"
     # data["winner"] = "user"
+    data["max_turns"] = 50
+    data["current_turn"] = 0
+    # data["winner"] = "draw"
 
     return ()
 
@@ -57,6 +62,9 @@ def makeView(data, userCanvas, compCanvas):
     if((data["winner"]) == "user"):
         drawGameOver(data, userCanvas)
     elif((data["winner"]) == "comp"):
+        drawGameOver(data, compCanvas)
+    elif((data["winner"]) == "draw"):
+        drawGameOver(data, userCanvas)
         drawGameOver(data, compCanvas)
 
     return
@@ -365,6 +373,11 @@ def runGameTurn(data, row, col):
         
         comp_guess_cor = getComputerGuess(data["user_board"])
         updateBoard(data, data["user_board"], comp_guess_cor[0], comp_guess_cor[1], player = "comp")
+
+        data["current_turn"] += 1
+        if((data["current_turn"]) == data["max_turns"]):
+            data["winner"] = "draw"
+
     return
 
 
@@ -410,6 +423,8 @@ def drawGameOver(data, canvas):
         canvas.create_text(250, 250, text = "Congratulations, You have won!", fill = "orange", font=('Helvetica 20 italic'))
     elif((data["winner"]) == "comp"):
         canvas.create_text(250, 250, text = "You lost, Try again to win", fill = "orange", font=('Helvetica 20 italic'))
+    elif((data["winner"]) == "draw"):
+        canvas.create_text(250,250, text = "You are out of moves and \nhave reached a draw", fill = "orange", font=('Helvetica 20 italic'))
 
     return
 
