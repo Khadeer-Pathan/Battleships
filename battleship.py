@@ -38,6 +38,9 @@ def makeModel(data):
     data["comp_board"] = addShips(data["comp_board"],data["n_comp_ships"])       # replacing the value for the same key
     data["winner"] = None
     # data["winner"] = "user"
+    data["max_turns"] = 50
+    data["current_turn"] = 0
+    # data["winner"] = "draw"
 
     return ()
 
@@ -58,6 +61,9 @@ def makeView(data, userCanvas, compCanvas):
         drawGameOver(data, userCanvas)
     elif((data["winner"]) == "comp"):
         drawGameOver(data, compCanvas)
+    elif((data["winner"]) == "draw"):
+        drawGameOver(data, userCanvas)
+        drawGameOver(data, compCanvas)
 
     return
 
@@ -68,6 +74,9 @@ Parameters: dict mapping strs to values ; key event object
 Returns: None
 '''
 def keyPressed(data, event):
+
+    if (event.keysym == "Return" ):
+        makeModel(data)
     pass
 
 
@@ -365,6 +374,11 @@ def runGameTurn(data, row, col):
         
         comp_guess_cor = getComputerGuess(data["user_board"])
         updateBoard(data, data["user_board"], comp_guess_cor[0], comp_guess_cor[1], player = "comp")
+
+        data["current_turn"] += 1
+        if((data["current_turn"]) == (data["max_turns"])):
+            data["winner"] = "draw"
+
     return
 
 
@@ -407,9 +421,14 @@ Returns: None
 def drawGameOver(data, canvas):
 
     if((data["winner"]) == "user"):
-        canvas.create_text(250, 250, text = "Congratulations, You have won!", fill = "orange", font=('Helvetica 20 italic'))
+        canvas.create_text(250, 200, text = "Congratulations, You have won!", fill = "orange", font=('Helvetica 20 italic'))
+        canvas.create_text(250, 350, text = "Play Again ?\nPress Enter", fill = "cyan", font=("Times 20 bold"))
     elif((data["winner"]) == "comp"):
-        canvas.create_text(250, 250, text = "You lost, Try again to win", fill = "orange", font=('Helvetica 20 italic'))
+        canvas.create_text(250, 200, text = "You lost, Try again to win", fill = "orange", font=('Helvetica 20 italic'))
+        canvas.create_text(250, 350, text = "Play Again ?\nPress Enter", fill = "cyan", font=("Times 20 bold"))
+    elif((data["winner"]) == "draw"):
+        canvas.create_text(250,200, text = "You are out of moves and \nhave reached a draw", fill = "orange", font=('Helvetica 20 italic'))
+        canvas.create_text(250, 350, text = "Play Again ?\nPress Enter", fill = "cyan", font=("Times 20 bold"))
 
     return
 
@@ -471,5 +490,4 @@ def runSimulation(w, h):
 if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
-    # test.testIsGameOver()
     runSimulation(500, 500)
